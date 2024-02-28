@@ -2,7 +2,7 @@
 
 namespace App\Entity\Trait;
 
-use doctrine\orm\Mapping as ORM;
+use Doctrine\ORM\Mapping as ORM;
 
 trait CreatedAtTrait
 {
