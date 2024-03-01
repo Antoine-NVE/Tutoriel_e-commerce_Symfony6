@@ -17,25 +17,26 @@ class CategoriesFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        $parent = $this->createCategory("Informatique", null, $manager);
-        $this->createCategory("Ordinateurs portables", $parent, $manager);
-        $this->createCategory("Ecran", $parent, $manager);
-        $this->createCategory("Souris", $parent, $manager);
+        $parent = $this->createCategory("Informatique", null, $manager, 1);
+        $this->createCategory("Ordinateurs portables", $parent, $manager, 3);
+        $this->createCategory("Ecrans", $parent, $manager, 2);
+        $this->createCategory("Souris", $parent, $manager, 4);
 
-        $parent = $this->createCategory("Mode", null, $manager);
-        $this->createCategory("Homme", $parent, $manager);
-        $this->createCategory("Femme", $parent, $manager);
-        $this->createCategory("Enfant", $parent, $manager);
+        $parent = $this->createCategory("Mode", null, $manager, 5);
+        $this->createCategory("Homme", $parent, $manager, 8);
+        $this->createCategory("Femme", $parent, $manager, 7);
+        $this->createCategory("Enfant", $parent, $manager, 6);
 
         $manager->flush();
     }
 
-    public function createCategory(string $name,  Categories $parent = null, ObjectManager $manager)
+    public function createCategory(string $name,  Categories $parent = null, ObjectManager $manager, int $categoryOrder)
     {
         $category = new Categories;
         $category->setName($name);
         $category->setSlug($this->slugger->slug($category->getName())->lower());
         $category->setParent($parent);
+        $category->setCategoryOrder($categoryOrder);
         $manager->persist($category);
 
         $this->addReference("cat-" . $this->counter, $category);
