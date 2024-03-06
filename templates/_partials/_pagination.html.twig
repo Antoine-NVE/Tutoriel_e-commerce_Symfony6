@@ -1,0 +1,32 @@
+{% if pages > 1 %}
+<nav>
+    <ul class="pagination">
+        {# Pages précédentes #}
+        <li class="page-item">
+            <a href="{{ path(path, {slug: slug, page: 1}) }}" class="page-link {{ (currentPage > 1) ? "" : " disabled"
+                }}">&lt;&lt;</a>
+        </li>
+        <li class="page-item">
+            <a href="{{ path(path, {slug: slug, page: currentPage - 1}) }}"
+                class="page-link {{ (currentPage > 1) ? "" : " disabled" }}">&lt;</a>
+        </li>
+
+        {# Toutes les pages #}
+        {% for page in 1..pages %}
+        <li class="page-item {{ (page == currentPage) ? " active" : "" }}">
+            <a href="{{ path(path, {slug: slug, page: page}) }}" class="page-link">{{ page }}</a>
+        </li>
+        {% endfor %}
+
+        {# Pages suivantes #}
+        <li class="page-item">
+            <a href="{{ path(path, {slug: slug, page: currentPage + 1}) }}"
+                class="page-link {{ (currentPage < pages) ? "" : " disabled" }}">&gt;</a>
+        </li>
+        <li class="page-item">
+            <a href="{{ path(path, {slug: slug, page: pages}) }}" class="page-link {{ (currentPage < pages) ? "" : "
+                disabled" }}">&gt;&gt;</a>
+        </li>
+    </ul>
+</nav>
+{% endif %}
