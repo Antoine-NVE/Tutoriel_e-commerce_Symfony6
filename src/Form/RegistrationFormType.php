@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -19,71 +20,100 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('email', EmailType::class, [
-                "attr" => [
-                    "class" => "form-control"
-                ],
-                "label" => "E-mail"
-            ])
             ->add('lastname', TextType::class, [
-                "attr" => [
-                    "class" => "form-control"
-                ],
-                "label" => "Nom"
+                "label" => "Nom",
+                "constraints" => [
+                    new NotBlank(message: "Veuillez saisir votre nom"),
+                    new Length([
+                        "min" => 3,
+                        "max" => 50,
+                        "minMessage" => "Votre nom doit contenir {{ limit }} caractères minimum",
+                        "maxMessage" => "Votre nom doit contenir {{ limit }} caractères maximum",
+                    ])
+                ]
             ])
             ->add('firstname', TextType::class, [
-                "attr" => [
-                    "class" => "form-control"
-                ],
-                "label" => "Prénom"
+                "label" => "Prénom",
+                "constraints" => [
+                    new NotBlank(message: "Veuillez saisir votre prénom"),
+                    new Length([
+                        "min" => 3,
+                        "max" => 50,
+                        "minMessage" => "Votre prénom doit contenir {{ limit }} caractères minimum",
+                        "maxMessage" => "Votre prénom doit contenir {{ limit }} caractères maximum",
+                    ])
+                ]
+            ])
+            ->add('email', EmailType::class, [
+                "label" => "E-mail",
+                "constraints" => [
+                    new NotBlank(message: "Veuillez saisir votre e-mail"),
+                    new Email(message: "E-mail invalide")
+                ]
             ])
             ->add('address', TextType::class, [
-                "attr" => [
-                    "class" => "form-control"
-                ],
-                "label" => "Adresse"
+                "label" => "Adresse",
+                "constraints" => [
+                    new NotBlank(message: "Veuillez saisir votre addresse"),
+                    new Length([
+                        "min" => 3,
+                        "max" => 50,
+                        "minMessage" => "Votre ville doit contenir {{ limit }} caractères minimum",
+                        "maxMessage" => "Votre ville doit contenir {{ limit }} caractères maximum",
+                    ])
+                ]
             ])
             ->add('zipcode', TextType::class, [
-                "attr" => [
-                    "class" => "form-control"
-                ],
-                "label" => "Code postal"
+                "label" => "Code postal",
+                "constraints" => [
+                    new NotBlank(message: "Veuillez saisir votre code postal"),
+                    new Length([
+                        "min" => 5,
+                        "max" => 5,
+                        "exactMessage" => "Votre code postal doit contenir exactement {{ limit }} caractères"
+                    ])
+                ]
             ])
             ->add('city', TextType::class, [
-                "attr" => [
-                    "class" => "form-control"
-                ],
-                "label" => "Ville"
-            ])
-            ->add('RGPDConsent', CheckboxType::class, [
-                'mapped' => false,
-                'constraints' => [
-                    new IsTrue([
-                        'message' => 'You should agree to our terms.',
-                    ]),
-                ],
-                "label" => "Accepter les RGPD..."
+                "label" => "Ville",
+                "constraints" => [
+                    new NotBlank(message: "Veuillez saisir votre ville"),
+                    new Length([
+                        "min" => 3,
+                        "max" => 50,
+                        "minMessage" => "Votre ville doit contenir {{ limit }} caractères minimum",
+                        "maxMessage" => "Votre ville doit contenir {{ limit }} caractères maximum",
+                    ])
+                ]
             ])
             ->add('plainPassword', PasswordType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
                 'mapped' => false,
                 'attr' => [
-                    'autocomplete' => 'new-password',
-                    "class" => "form-control"
+                    'autocomplete' => 'new-password'
                 ],
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Please enter a password',
+                        'message' => 'Veuillez saisir un mot de passe',
                     ]),
                     new Length([
                         'min' => 6,
-                        'minMessage' => 'Your password should be at least {{ limit }} characters',
-                        // max length allowed by Symfony for security reasons
-                        'max' => 4096,
+                        'max' => 20,
+                        'minMessage' => 'Votre mot de passe doit faire {{ limit }} caractères minimum',
+                        "maxMessage" => "Votre mot de passe doit faire {{ limit }} caractères maximum"
                     ]),
                 ],
                 "label" => "Mot de passe"
+            ])
+            ->add('RGPDConsent', CheckboxType::class, [
+                'mapped' => false,
+                'constraints' => [
+                    new IsTrue([
+                        'message' => 'Veuillez accepter les RGPD',
+                    ]),
+                ],
+                "label" => "Accepter les RGPD..."
             ]);
     }
 
