@@ -9,3 +9,5 @@ Puis : "symfony console make:migration" -> crée les commandes SQL à exécuter 
 Enfin : "symfony console doctrine:migrations:migrate" -> exécute les commandes.
 
 Vous avez également la possibilité de pré-remplir la base grâce aux data fixtures. Cela n'ajoute pas tout, vous aurez peut-être des choses à rajouter à la main : "symfony console doctrine:fixtures:load".
+
+Pour suivre le tutoriel : https://www.youtube.com/watch?v=kuKb3VfcTWE&list=PLBq3aRiVuwyzI0MT4LhvwqkVenz5pF_DM&pp=iAQB
